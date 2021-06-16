@@ -110,7 +110,7 @@ jobs:
                 for(const comment of JSON.parse(comments)) {
                     console.log('Comment: ' + JSON.stringify(comment))
                     try {
-                      github.pulls.createReviewComment({
+                      github.pulls.createReview({
                         ...comment,
                         owner: context.repo.owner,
                         repo: context.repo.repo,
