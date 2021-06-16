@@ -4,4 +4,5 @@ env:
 extends: 'eslint:recommended'
 parserOptions:
   ecmaVersion: 12
-rules: {}
+rules:
+  no-const-assign: off
