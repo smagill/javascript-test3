@@ -109,7 +109,8 @@ jobs:
                 console.log('Comments string (raw): ' + comments)
                 for(const comment of JSON.parse(comments)) {
                     console.log('Comment: ' + JSON.stringify(comment))
-                    github.pulls.createReviewComment({
+                    try {
+                      github.pulls.createReviewComment({
                         ...comment,
                         owner: context.repo.owner,
                         repo: context.repo.repo,
@@ -117,4 +118,8 @@ jobs:
                         commit_id: commit,
                         event: 'COMMENT'
                         });
+                    }
+                    catch(error) {
+                        console.log('Error: ' + JSON.stringify(error))
+                    }
                 }
