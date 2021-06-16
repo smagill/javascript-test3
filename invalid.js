@@ -45,6 +45,11 @@ function getPropFixedBetter(object, propertyName, defaultValue) {
    return object[propertyName];
 }
 
+hero = {
+  name: 'Batman',
+  isVillian: false
+};
+
 function someFunc(array) {
   var index, item, length = array.length;
   /*
@@ -67,6 +72,11 @@ if (notFound) {
 
 let count;
 console.log(count); // => undefined
+
+hero = {
+  name: 'Batman'
+};
+console.log(hero.city); // => undefined
 
 // Bad
 const object = {
