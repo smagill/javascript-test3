@@ -115,7 +115,6 @@ jobs:
                         owner: context.repo.owner,
                         repo: context.repo.repo,
                         pull_number: context.issue.number,
-                        commit_id: commit,
                         event: 'COMMENT'
                         });
                     }
