@@ -21,12 +21,6 @@ jobs:
         #   run: |
         #       ... put shell script to create .m2/settings.xml
         #       .... put shell script to install build dependencies if needed
-        - name: Test curl
-          env:
-              MY_TOKEN: ${{secrets.MY_TOKEN}}
-          run: |
-            export SRC_SHA=$(cat $GITHUB_EVENT_PATH | jq -r -j .pull_request.head.sha)
-            curl -X POST -H 'content-type: application/json; charset=utf-8' -H 'accept: application/vnd.github.-preview+json' -H 'Accept: application/vnd.github.-preview+json' -H "Authorization: token $MY_TOKEN" https://api.github.com/repos/tommd/javascript-test3/pulls/1/comments -d "{\"path\":\"new.js\",\"body\":\"JSC_REASSIGNED_CONSTANT:\n THIS IS A CURL TEST Constant reassigned: hero\",\"position\":41,\"commit_id\":\"$SRC_SHA\",\"event\":\"COMMENT\"}"
         - name: Produce src artifact
           run: |
               if [ -z "$GITHUB_BASE_REF" ] ; then
@@ -101,30 +95,7 @@ jobs:
           with:
             name: lift_src_results
         - name: Combine
+          env:
+              GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           run: |
               github-comment-composer lift.git.diff lift-src-results.json lift-dst-results.json > github-comments.json
-        - name: Post comments
-          uses: actions/github-script@v4
-          with:
-            github-token: ${{secrets.MY_TOKEN}}
-            script: |
-                const { promises: fs } = require('fs')
-                const commit = await fs.readFile('lift-commit', 'utf8')
-                console.log('Commit for comment: ' + commit)
-                const comments = await fs.readFile('github-comments.json', 'utf8')
-                console.log('Comments string (raw): ' + comments)
-                for(const comment of JSON.parse(comments)) {
-                    console.log('Comment: ' + JSON.stringify(comment))
-                    try {
-                      github.pulls.createReviewComment({
-                        ...comment,
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        pull_number: context.issue.number,
-                        commit_id: commit,
-                        event: 'COMMENT'
-                        });
-                    }
-                    catch(error) {
-                    }
-                }
