@@ -122,3 +122,8 @@ jobs:
                     catch(error) {
                     }
                 }
+        - name: Test curl
+          with:
+              MY_TOKEN: ${{secrets.MY_TOKEN}}
+          run: |
+            curl -X POST -H 'content-type: application/json; charset=utf-8' -H 'accept: application/vnd.github.-preview+json' -H 'Accept: application/vnd.github.-preview+json' -H "Authorization: token $MY_TOKEN" https://api.github.com/repos/tommd/javascript-test3/pulls/1/comments -d '{"path":"invalid.js","body":"JSC_REASSIGNED_CONSTANT:\n THIS IS A CURL TEST Constant reassigned: hero","position":16,"commit_id":"dec7ab74b1fded7de0dea985e0362d6cbf490bb9","event":"COMMENT"}'
