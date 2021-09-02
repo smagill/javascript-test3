@@ -1,14 +1,7 @@
 name: Lift Results To IQ
  
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-  release:
-    types: # This configuration does not affect the page_build event above
-      - created
- 
+on: workflow_dispatch
+
 jobs:
   lift_analyze:
     name: Lift Analysis
