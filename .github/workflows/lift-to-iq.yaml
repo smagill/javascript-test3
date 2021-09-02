@@ -1,6 +1,7 @@
 name: Lift Results To IQ
  
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
